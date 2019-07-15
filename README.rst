@@ -1,6 +1,6 @@
 .. -*- mode: rst -*-
 
-py_bitflyer_jsonrpc
+py_bitflyer_jsonrpc(supported websocket-client 0.56.0)
 ==========
 
 ''py_bitflyer_jsonrpc''　は、仮想通貨取引所 Bitflyer のJSON-RPCプロトコルを使用して情報を取得するライブラリです。
