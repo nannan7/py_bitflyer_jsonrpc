@@ -140,7 +140,7 @@ class BitflyerJSON_RPC:
             self.exit()
             raise websocket.WebSocketTimeoutException('Couldn\'t connect to WS! Exiting.')
 
-    def __on_open(self, ws):
+    def __on_open(self):
         '''コネクションオープン時の処理'''
         self.logger.debug("Websocket Opened.")
         # 指定されている通貨セットの全てのチャンネルを購読します
@@ -150,7 +150,7 @@ class BitflyerJSON_RPC:
                 'params' : {'channel' : channel}
                 }
             )
-            ws.send(output_json)
+            self.ws.send(output_json)
             
     def __wait_for_first_data(self):
         # 全ての購読の最初のデータが揃うまで待ちます
@@ -158,11 +158,11 @@ class BitflyerJSON_RPC:
             sleep(0.1)
 
 
-    def __on_close(self, ws):
+    def __on_close(self):
         '''WebSocketクローズ時の処理'''
         self.logger.info('Websocket Closed')
 
-    def __on_error(self, ws, error):
+    def __on_error(self, error):
         '''WebSocketでエラーが発生したときの処理'''
         if not self.exited:
             self.logger.error("Error : %s" % error)
@@ -173,7 +173,7 @@ class BitflyerJSON_RPC:
             else:
                 raise websocket.WebSocketException(error)
 
-    def __on_message(self, ws, message):
+    def __on_message(self, message):
         '''WebSocketがメッセージを取得したときの処理'''
         message = json.loads(message)['params']
         self.logger.debug(json.dumps(message))
